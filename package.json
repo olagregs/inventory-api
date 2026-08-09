@@ -1,0 +1,25 @@
+{
+  "name": "inventory-api-lab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "tsx watch src/shared/infra/http/server.ts",
+    "start": "node dist/shared/infra/http/server.js",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "keywords": [],
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.2.0",
+    "eslint": "^10.8.1",
+    "globals": "^17.9.0",
+    "typescript-eslint": "^8.66.0",
+    "tsx": "^4.23.11",
+    "typescript": "^6.0.3"
+  }
+}
