@@ -20,5 +20,19 @@ export default defineConfig([
         }
       ]
     }
-  }
+  },
+  { files: ["./src/modules/**/dto/*.ts"],
+    rules: {
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "class",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "[a-z]DTO$",
+          "match": true
+        }
+      }
+    ]
+  }}
 ]);
