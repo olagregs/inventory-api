@@ -11,7 +11,7 @@ class FindEquipmentController {
       const error = query.error;
 
       return response.status(400).json({
-        Error: error.issues[0]?.message
+        error: error.issues[0]?.message
       });
     }
 

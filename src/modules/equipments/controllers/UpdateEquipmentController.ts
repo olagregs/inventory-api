@@ -14,7 +14,7 @@ class UpdateEquipmentController {
       const error = result.error;
 
       return response.status(400).json({
-        Error: error.issues.map(issue => issue.message)
+        error: error.issues.map(issue => issue.message)
       });
     }
 
