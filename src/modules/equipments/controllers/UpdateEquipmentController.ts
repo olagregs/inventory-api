@@ -4,7 +4,7 @@ import { UpdateEquipmentSchema } from '../dto/EquipmentDTO.js';
 import { UpdateEquipmentUseCase } from '../useCases/UpdateEquipmentUseCase.js';
 
 class UpdateEquipmentController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const result = UpdateEquipmentSchema.safeParse({
       params: (request.params),
       body: (request.body)
@@ -14,13 +14,18 @@ class UpdateEquipmentController {
       const error = result.error;
 
       return response.status(400).json({
-        error: error.issues.map(issue => issue.message)
+        message: "Invalid fields",
+        details: error.issues.map(issue => issue.message)
       });
     }
 
-    await new UpdateEquipmentUseCase().execute(result.data);
+    const output = await new UpdateEquipmentUseCase().execute(result.data);
 
-    response.status(204).send();
+    if(output.ok === false) {
+      return response.status(output.value.statusCode).json({ message: output.value.message });
+    }
+
+    return response.status(200).json(output.value);
   }
 }
 

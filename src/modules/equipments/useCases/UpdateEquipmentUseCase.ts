@@ -1,20 +1,22 @@
-import { UpdateEquipmentDTO } from "../dto/EquipmentDTO.js";
+import { Either, fail, success } from "@shared/config/types/either.js";
+import { EquipmentDTO, UpdateEquipmentDTO } from "../dto/EquipmentDTO.js";
 import { EquipmentRepository } from "../repositories/EquipmentRepository.js";
+import { EquipmentNotFound } from "../errors/EquipmentNotFound.js";
 
 
 class UpdateEquipmentUseCase {
   private repository = new EquipmentRepository();
 
-  async execute(data: UpdateEquipmentDTO) {
-    const equipment = this.repository.find(data.params);
+  async execute(data: UpdateEquipmentDTO): Promise<Either<EquipmentNotFound, EquipmentDTO>> {
+    const equipmentAlreadyExists = this.repository.find(data.params);
   
-    if(!equipment) {
-      return { message: "Equipment does not exist!" };
+    if(!equipmentAlreadyExists) {
+      return fail(new EquipmentNotFound())
     }
 
-    this.repository.update(data);
+    const equipment = this.repository.update(data) as EquipmentDTO;
   
-    return equipment;
+    return success(equipment);
   }
 }
 

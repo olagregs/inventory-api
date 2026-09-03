@@ -4,24 +4,25 @@ import { FindEquipmentUseCase } from '../useCases/FindEquipmentUseCase.js';
 import { FindEquipmentSchema } from '../dto/EquipmentDTO.js';
 
 class FindEquipmentController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const query = FindEquipmentSchema.safeParse(request.params);
 
     if(!query.success) {
       const error = query.error;
 
       return response.status(400).json({
-        error: error.issues[0]?.message
+        message: "Invalid field",
+        details: error.issues.map(issue => issue.message)
       });
     }
 
-    const equipment = await new FindEquipmentUseCase().execute(query.data);
+    const output = await new FindEquipmentUseCase().execute(query.data);
 
-    if(!equipment) {
-      return response.status(404).json({ message: "Equipment not found" });
+    if(output.ok === false) {
+      return response.status(output.value.statusCode).json({ message: output.value.message });
     }
 
-    return response.status(200).json(equipment);
+    return response.status(200).json(output.value);
   }
 }
 
