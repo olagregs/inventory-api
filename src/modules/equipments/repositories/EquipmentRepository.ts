@@ -3,41 +3,45 @@ import { EquipmentDTO, FindEquipmentDTO, UpdateEquipmentDTO } from "../dto/Equip
 class EquipmentRepository {
   private inventory: EquipmentDTO[] = [];
 
-  create(data: EquipmentDTO) {
+  create(data: EquipmentDTO): EquipmentDTO {
     this.inventory.push(data);
 
-    const equipment = this.inventory.find(equipment => equipment.serialNumber === data.serialNumber);
-
-    return equipment;
+    return data;
   }
 
-  find(data: FindEquipmentDTO) {
+  find(data: FindEquipmentDTO): EquipmentDTO | undefined {
     const equipment = this.inventory.find(
       equipment => equipment.serialNumber === data.serialNumber
-    )
+    );
 
     return equipment;
   }
 
-  list() {
+  list():EquipmentDTO[] {
     return this.inventory;
   }
 
-  update(data: UpdateEquipmentDTO) {
+  update(data: UpdateEquipmentDTO): EquipmentDTO | undefined {
     const equipment = this.inventory.find(
       equipment => equipment.serialNumber === data.params.serialNumber
-    )
+    );
 
     if(equipment) {
       equipment.status = data.body.status;
       equipment.location = data.body.location;
     }
+
+    return equipment;
   }
 
-  delete(data: EquipmentDTO) {
-    const index = this.inventory.findIndex(equipment => equipment.serialNumber === data.serialNumber);
+  delete(data: EquipmentDTO):void {
+    const index = this.inventory.findIndex(
+      equipment => equipment.serialNumber === data.serialNumber
+    );
 
-    this.inventory.splice(index, 1);
+    if(index !== -1) {
+      this.inventory.splice(index, 1);
+    }
   }
 }
 

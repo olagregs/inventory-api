@@ -14,6 +14,6 @@ z.config({
       return { message: `Received ${message} field as ${type}, but expected as ${issue.expected}`} 
     }
     
-    return { message: issue.message ?? 'Unexpeted error'}
+    return { message: issue.message ?? 'Unexpected error'}
   }
 });
