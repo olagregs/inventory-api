@@ -4,7 +4,13 @@ import { FindEquipmentUseCase } from '../useCases/FindEquipmentUseCase.js';
 import { FindEquipmentSchema } from '../dto/EquipmentDTO.js';
 
 class FindEquipmentController {
-  async handle(request: Request, response: Response): Promise<Response> {
+  private useCase: FindEquipmentUseCase;
+
+  constructor(useCase: FindEquipmentUseCase) {
+    this.useCase = useCase;
+  }
+  
+  handle = async (request: Request, response: Response): Promise<Response> => {
     const query = FindEquipmentSchema.safeParse(request.params);
 
     if(!query.success) {
@@ -16,7 +22,7 @@ class FindEquipmentController {
       });
     }
 
-    const output = await new FindEquipmentUseCase().execute(query.data);
+    const output = await this.useCase.execute(query.data);
 
     if(output.ok === false) {
       return response.status(output.value.statusCode).json({ message: output.value.message });
@@ -26,4 +32,4 @@ class FindEquipmentController {
   }
 }
 
-export { FindEquipmentController   }
+export { FindEquipmentController }

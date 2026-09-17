@@ -4,7 +4,13 @@ import { CreateEquipmentUseCase } from '../useCases/CreateEquipmentUseCase.js';
 import { CreateEquipmentSchema } from '../dto/EquipmentDTO.js';
 
 class CreateEquipmentController {
-  async handle(request: Request, response: Response): Promise<Response> {
+  private useCase: CreateEquipmentUseCase;
+
+  constructor(useCase: CreateEquipmentUseCase) {
+    this.useCase = useCase;
+  }
+
+  handle = async(request: Request, response: Response): Promise<Response> => {
     const result = CreateEquipmentSchema.safeParse(request.body);
     
     if (!result.success) {
@@ -16,7 +22,7 @@ class CreateEquipmentController {
       }); 
     }
   
-    const output = await new CreateEquipmentUseCase().execute(result.data);
+    const output = await this.useCase.execute(result.data);
   
     if(output.ok === false) {
       return response.status(output.value.statusCode).json({ message: output.value.message });

@@ -4,7 +4,13 @@ import { UpdateEquipmentSchema } from '../dto/EquipmentDTO.js';
 import { UpdateEquipmentUseCase } from '../useCases/UpdateEquipmentUseCase.js';
 
 class UpdateEquipmentController {
-  async handle(request: Request, response: Response): Promise<Response> {
+  private useCase: UpdateEquipmentUseCase;
+
+  constructor(useCase: UpdateEquipmentUseCase) {
+    this.useCase = useCase;
+  }
+
+  handle = async (request: Request, response: Response): Promise<Response> => {
     const result = UpdateEquipmentSchema.safeParse({
       params: (request.params),
       body: (request.body)
@@ -19,7 +25,7 @@ class UpdateEquipmentController {
       });
     }
 
-    const output = await new UpdateEquipmentUseCase().execute(result.data);
+    const output = await this.useCase.execute(result.data);
 
     if(output.ok === false) {
       return response.status(output.value.statusCode).json({ message: output.value.message });
