@@ -9,23 +9,28 @@
     "dev": "tsx watch src/shared/infra/http/server.ts",
     "start": "node dist/shared/infra/http/server.js",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "type": "module",
   "dependencies": {
-    "express": "^5.2.1",
     "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.2.0",
     "eslint": "^10.8.1",
+    "eslint-config-prettier": "^10.1.8",
     "globals": "^17.9.0",
     "jiti": "^2.7.0",
+    "prettier": "3.9.8",
     "tsx": "^4.23.11",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.66.0"
