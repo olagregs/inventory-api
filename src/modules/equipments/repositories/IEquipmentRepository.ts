@@ -5,8 +5,8 @@ interface IEquipmentRepository {
   create(data: EquipmentDTO): Equipment;
   find(data: FindEquipmentDTO): Equipment | undefined;
   list(): Equipment[];
-  update(data: UpdateEquipmentDTO): Equipment | undefined;
+  update(equipment: Equipment, data: UpdateEquipmentDTO): Equipment;
   delete(data: FindEquipmentDTO): void;
 }
 
-export { IEquipmentRepository }
+export { IEquipmentRepository };
