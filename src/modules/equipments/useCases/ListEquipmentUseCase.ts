@@ -13,4 +13,4 @@ class ListEquipmentUseCase {
   }
 }
 
-export { ListEquipmentUseCase }
+export { ListEquipmentUseCase };

@@ -1,10 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from "express";
 
 interface ICustomError extends Error {
-  statusCode?: number
+  statusCode?: number;
 }
 
-const errorHandler = (error: ICustomError, _request: Request, response: Response, _next: NextFunction) => {
+const errorHandler = (
+  error: ICustomError,
+  _request: Request,
+  response: Response,
+  _next: NextFunction,
+) => {
   const statusCode = error.statusCode || 500;
   const message = statusCode === 500 ? "Internal server error" : error.message;
 
@@ -12,8 +17,8 @@ const errorHandler = (error: ICustomError, _request: Request, response: Response
 
   response.status(statusCode).json({
     message,
-    ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+    ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
   });
-}
+};
 
-export { errorHandler }
+export { errorHandler };

@@ -13,7 +13,7 @@ class FindEquipmentUseCase {
   async execute(data: FindEquipmentDTO): Promise<Either<EquipmentNotFound, EquipmentDTO>> {
     const equipment = this.repository.find(data);
 
-    if(!equipment) {
+    if (!equipment) {
       return fail(new EquipmentNotFound());
     }
 
@@ -21,4 +21,4 @@ class FindEquipmentUseCase {
   }
 }
 
-export { FindEquipmentUseCase }
+export { FindEquipmentUseCase };

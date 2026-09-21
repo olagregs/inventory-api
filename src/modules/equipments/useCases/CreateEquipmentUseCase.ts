@@ -1,9 +1,9 @@
 import { randomUUID } from "node:crypto";
-
 import { Either, fail, success } from "@shared/config/types/either.js";
-import { EquipmentDTO, CreateEquipmentDTO } from "../dto/EquipmentDTO.js";
+import { CreateEquipmentDTO, EquipmentDTO } from "../dto/EquipmentDTO.js";
 import { EquipmentAlreadyExists } from "../errors/EquipmentAlreadyExists.js";
 import { IEquipmentRepository } from "../repositories/IEquipmentRepository.js";
+
 class CreateEquipmentUseCase {
   private repository: IEquipmentRepository;
 
@@ -14,17 +14,17 @@ class CreateEquipmentUseCase {
   async execute(data: CreateEquipmentDTO): Promise<Either<EquipmentAlreadyExists, EquipmentDTO>> {
     const equipmentAlreadyExists = this.repository.find(data);
 
-    if(equipmentAlreadyExists) {
+    if (equipmentAlreadyExists) {
       return fail(new EquipmentAlreadyExists());
     }
 
     const equipment = this.repository.create({
       id: randomUUID(),
-      ...data
+      ...data,
     });
 
     return success(equipment);
   }
 }
 
-export { CreateEquipmentUseCase }
+export { CreateEquipmentUseCase };

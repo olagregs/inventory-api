@@ -1,5 +1,5 @@
 import { Either, fail, success } from "@shared/config/types/either.js";
-import { FindEquipmentDTO } from '../dto/EquipmentDTO.js';
+import { FindEquipmentDTO } from "../dto/EquipmentDTO.js";
 import { EquipmentNotFound } from "../errors/EquipmentNotFound.js";
 import { IEquipmentRepository } from "../repositories/IEquipmentRepository.js";
 
@@ -13,7 +13,7 @@ class DeleteEquipmentUseCase {
   async execute(data: FindEquipmentDTO): Promise<Either<EquipmentNotFound, void>> {
     const equipment = this.repository.find(data);
 
-    if(!equipment) {
+    if (!equipment) {
       return fail(new EquipmentNotFound());
     }
 
@@ -23,4 +23,4 @@ class DeleteEquipmentUseCase {
   }
 }
 
-export { DeleteEquipmentUseCase }
+export { DeleteEquipmentUseCase };

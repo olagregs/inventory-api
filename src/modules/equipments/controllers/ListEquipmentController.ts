@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { ListEquipmentUseCase } from "../useCases/ListEquipmentUseCase.js";
 
 class ListEquipmentController {
@@ -13,7 +12,7 @@ class ListEquipmentController {
     const inventory = await this.useCase.execute();
 
     return response.status(200).json(inventory);
-  }
+  };
 }
 
-export { ListEquipmentController }
+export { ListEquipmentController };
