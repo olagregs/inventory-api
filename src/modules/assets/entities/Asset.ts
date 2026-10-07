@@ -1,4 +1,4 @@
-class Equipment {
+class Asset {
   id: string;
   model: string;
   tagId: string;
@@ -23,4 +23,4 @@ class Equipment {
   }
 }
 
-export { Equipment };
+export { Asset };

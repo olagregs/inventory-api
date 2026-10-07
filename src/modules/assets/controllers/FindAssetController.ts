@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import { FindEquipmentSchema } from "../dto/EquipmentDTO.js";
-import { FindEquipmentUseCase } from "../useCases/FindEquipmentUseCase.js";
+import { FindAssetSchema } from "../dto/AssetDTO.js";
+import { FindAssetUseCase } from "../useCases/FindAssetUseCase.js";
 
-class FindEquipmentController {
-  private useCase: FindEquipmentUseCase;
+class FindAssetController {
+  private useCase: FindAssetUseCase;
 
-  constructor(useCase: FindEquipmentUseCase) {
+  constructor(useCase: FindAssetUseCase) {
     this.useCase = useCase;
   }
 
   handle = async (request: Request, response: Response): Promise<Response> => {
-    const query = FindEquipmentSchema.safeParse(request.params);
+    const query = FindAssetSchema.safeParse(request.params);
 
     if (!query.success) {
       const error = query.error;
@@ -31,4 +31,4 @@ class FindEquipmentController {
   };
 }
 
-export { FindEquipmentController };
+export { FindAssetController };

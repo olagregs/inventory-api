@@ -1,16 +1,19 @@
 import { Request, Response } from "express";
-import { CreateEquipmentSchema } from "../dto/EquipmentDTO.js";
-import { CreateEquipmentUseCase } from "../useCases/CreateEquipmentUseCase.js";
+import { UpdateAssetSchema } from "../dto/AssetDTO.js";
+import { UpdateAssetUseCase } from "../useCases/UpdateAssetUseCase.js";
 
-class CreateEquipmentController {
-  private useCase: CreateEquipmentUseCase;
+class UpdateAssetController {
+  private useCase: UpdateAssetUseCase;
 
-  constructor(useCase: CreateEquipmentUseCase) {
+  constructor(useCase: UpdateAssetUseCase) {
     this.useCase = useCase;
   }
 
   handle = async (request: Request, response: Response): Promise<Response> => {
-    const result = CreateEquipmentSchema.safeParse(request.body);
+    const result = UpdateAssetSchema.safeParse({
+      params: request.params,
+      body: request.body,
+    });
 
     if (!result.success) {
       const error = result.error;
@@ -27,8 +30,8 @@ class CreateEquipmentController {
       return response.status(output.value.statusCode).json({ message: output.value.message });
     }
 
-    return response.status(201).json(output.value);
+    return response.status(200).json(output.value);
   };
 }
 
-export { CreateEquipmentController };
+export { UpdateAssetController };

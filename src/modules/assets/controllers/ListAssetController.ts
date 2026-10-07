@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { ListEquipmentUseCase } from "../useCases/ListEquipmentUseCase.js";
+import { ListAssetUseCase } from "../useCases/ListAssetUseCase.js";
 
-class ListEquipmentController {
-  private useCase: ListEquipmentUseCase;
+class ListAssetController {
+  private useCase: ListAssetUseCase;
 
-  constructor(useCase: ListEquipmentUseCase) {
+  constructor(useCase: ListAssetUseCase) {
     this.useCase = useCase;
   }
 
@@ -15,4 +15,4 @@ class ListEquipmentController {
   };
 }
 
-export { ListEquipmentController };
+export { ListAssetController };
