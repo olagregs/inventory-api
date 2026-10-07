@@ -6,7 +6,6 @@ interface IAssetRepository {
   find(data: FindAssetDTO): Asset | undefined;
   list(): Asset[];
   update(Asset: Asset, data: UpdateAssetDTO): Asset;
-  delete(data: FindAssetDTO): void;
 }
 
 export { IAssetRepository };

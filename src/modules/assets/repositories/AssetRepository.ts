@@ -27,14 +27,6 @@ class AssetRepository implements IAssetRepository {
 
     return asset;
   }
-
-  delete(data: FindAssetDTO): void {
-    const index = this.inventory.findIndex((item) => item.serialNumber === data.serialNumber);
-
-    if (index !== -1) {
-      this.inventory.splice(index, 1);
-    }
-  }
 }
 
 export { AssetRepository };
