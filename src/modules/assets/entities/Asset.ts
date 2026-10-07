@@ -1,7 +1,7 @@
 class Asset {
   id: string;
   model: string;
-  tagId: string;
+  tag: string;
   serialNumber: string;
   status: string;
   location: string;
@@ -9,14 +9,14 @@ class Asset {
   constructor(
     id: string,
     model: string,
-    tagId: string,
+    tag: string,
     serialNumber: string,
     status: string,
     location: string,
   ) {
     this.id = id;
     this.model = model;
-    this.tagId = tagId;
+    this.tag = tag;
     this.serialNumber = serialNumber;
     this.status = status;
     this.location = location;

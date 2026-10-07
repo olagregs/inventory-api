@@ -1,11 +1,12 @@
-import { AssetDTO, FindAssetDTO, UpdateAssetDTO } from "../dto/AssetDTO.js";
+import { AssetDTO, UpdateAssetDTO } from "../dto/AssetDTO.js";
 import { Asset } from "../entities/Asset.js";
 
 interface IAssetRepository {
   create(data: AssetDTO): Asset;
-  find(data: FindAssetDTO): Asset | undefined;
+  findBySerial(serialNumber: string): Asset | undefined;
+  findByTag(tag: string): Asset | undefined;
   list(): Asset[];
-  update(Asset: Asset, data: UpdateAssetDTO): Asset;
+  update(asset: Asset, data: UpdateAssetDTO): Asset;
 }
 
 export { IAssetRepository };

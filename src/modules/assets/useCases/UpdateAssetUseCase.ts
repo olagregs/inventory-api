@@ -11,7 +11,7 @@ class UpdateAssetUseCase {
   }
 
   async execute(data: UpdateAssetDTO): Promise<Either<AssetNotFound, AssetDTO>> {
-    const asset = this.repository.find(data.params);
+    const asset = this.repository.findBySerial(data.params.serialNumber);
 
     if (!asset) {
       return fail(new AssetNotFound());

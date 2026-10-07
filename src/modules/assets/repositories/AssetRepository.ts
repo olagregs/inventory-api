@@ -1,4 +1,4 @@
-import { AssetDTO, FindAssetDTO, UpdateAssetDTO } from "../dto/AssetDTO.js";
+import { AssetDTO, UpdateAssetDTO } from "../dto/AssetDTO.js";
 import { Asset } from "../entities/Asset.js";
 import { IAssetRepository } from "./IAssetRepository.js";
 
@@ -11,8 +11,14 @@ class AssetRepository implements IAssetRepository {
     return data;
   }
 
-  find(data: FindAssetDTO): Asset | undefined {
-    const asset = this.inventory.find((item) => item.serialNumber === data.serialNumber);
+  findBySerial(serialNumber: string): Asset | undefined {
+    const asset = this.inventory.find((item) => item.serialNumber === serialNumber);
+
+    return asset;
+  }
+
+  findByTag(tag: string): Asset | undefined {
+    const asset = this.inventory.find((item) => item.tag === tag);
 
     return asset;
   }

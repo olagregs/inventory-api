@@ -12,7 +12,7 @@ class CreateAssetUseCase {
   }
 
   async execute(data: CreateAssetDTO): Promise<Either<AssetAlreadyExists, AssetDTO>> {
-    const existingAsset = this.repository.find(data);
+    const existingAsset = this.repository.findBySerial(data.serialNumber);
 
     if (existingAsset) {
       return fail(new AssetAlreadyExists());
