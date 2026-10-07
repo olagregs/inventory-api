@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc && tsc-alias -p tsconfig.json",
     "dev": "tsx watch src/shared/infra/http/server.ts",
     "start": "node dist/shared/infra/http/server.js",
-    "lint": "eslint",
+    "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format:check": "prettier --check .",
     "format": "prettier --write ."
@@ -31,6 +31,7 @@
     "globals": "^17.9.0",
     "jiti": "^2.7.0",
     "prettier": "3.9.8",
+    "tsc-alias": "^1.9.7",
     "tsx": "^4.23.11",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.66.0"
