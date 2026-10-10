@@ -1,0 +1,51 @@
+// use prisma-8
+
+enum Action {
+  CREATED
+  UPDATED
+}
+
+model Asset {
+  id              String       @id @default(cuid(2))
+  asset_status_id String
+  asset_type_id   String
+  model           String
+  tag             String       @unique
+  serial_number   String       @unique
+  location        String
+  created_at      TimestamptzString() @default(now())
+  updated_at      temporal.timestamptzString()
+
+  Asset_statuses AssetStatuses @relation(fields: [asset_status_id], references: [id])
+  Asset_types    AssetTypes    @relation(fields: [asset_type_id], references: [id])
+  logs           AssetLogs[]
+}
+
+model AssetLogs {
+  id              String         @id @default(cuid(2))
+  asset_id         String
+  asset_status_id String
+  action          Action         @default(CREATED)
+  location        String
+  created_at      TimestamptzString() @default(now())
+
+  Asset           Asset          @relation(fields: [asset_id], references: [id])
+  Asset_statuses  AssetStatuses  @relation(fields: [asset_status_id], references: [id])
+}
+
+model AssetStatuses {
+  id         String   @id @default(cuid(2))
+  name       String   @unique
+  created_at TimestamptzString() @default(now())
+
+  assets Asset[]
+  logs   AssetLogs[]
+}
+
+model AssetTypes {
+  id         String   @id @default(cuid(2))
+  name       String   @unique
+  created_at TimestamptzString() @default(now())
+
+  assets Asset[]
+}
