@@ -2,9 +2,11 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "module": "nodenext",
+    "module": "preserve",
     "target": "esnext",
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "lib": ["esnext"],
     "sourceMap": true,
     "declaration": true,
@@ -24,7 +26,9 @@
     "paths": {
       "@modules/*": ["./src/modules/*"],
       "@shared/*": ["./src/shared/*"]
-    }
+    },
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true
   },
   "include": ["src"]
 }
