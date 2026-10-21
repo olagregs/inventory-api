@@ -5,47 +5,58 @@ enum Action {
   UPDATED
 }
 
-model Asset {
-  id              String       @id @default(cuid(2))
-  asset_status_id String
-  asset_type_id   String
-  model           String
-  tag             String       @unique
-  serial_number   String       @unique
-  location        String
-  created_at      TimestamptzString() @default(now())
-  updated_at      temporal.timestamptzString()
+model AssetTypes {
+  id         String               @id @default(cuid(2))
+  name       String               @unique
+  created_at temporal.createdAtJsDate()
 
-  Asset_statuses AssetStatuses @relation(fields: [asset_status_id], references: [id])
-  Asset_types    AssetTypes    @relation(fields: [asset_type_id], references: [id])
-  logs           AssetLogs[]
-}
-
-model AssetLogs {
-  id              String         @id @default(cuid(2))
-  asset_id         String
-  asset_status_id String
-  action          Action         @default(CREATED)
-  location        String
-  created_at      TimestamptzString() @default(now())
-
-  Asset           Asset          @relation(fields: [asset_id], references: [id])
-  Asset_statuses  AssetStatuses  @relation(fields: [asset_status_id], references: [id])
+  assets Asset[]
 }
 
 model AssetStatuses {
-  id         String   @id @default(cuid(2))
-  name       String   @unique
-  created_at TimestamptzString() @default(now())
+  id         String               @id @default(cuid(2))
+  name       String               @unique
+  created_at temporal.createdAtJsDate()
 
   assets Asset[]
   logs   AssetLogs[]
 }
 
-model AssetTypes {
-  id         String   @id @default(cuid(2))
-  name       String   @unique
-  created_at TimestamptzString() @default(now())
+model AssetLocations {
+  id         String               @id @default(cuid(2))
+  name       String               @unique
+  created_at temporal.createdAtJsDate()
 
-  assets Asset[]
+  assets     Asset[]
+  assetlogs  AssetLogs[]
+}
+
+model Asset {
+  id                String               @id @default(cuid(2))
+  asset_location_id String
+  asset_status_id   String
+  asset_type_id     String
+  model             String
+  tag               String               @unique
+  serial_number     String               @unique
+  created_at        temporal.createdAtJsDate()
+  updated_at        temporal.updatedAtJsDate()
+
+  Asset_locations   AssetLocations       @relation(fields: [asset_location_id], references: [id])
+  Asset_statuses    AssetStatuses        @relation(fields: [asset_status_id], references: [id])
+  Asset_types       AssetTypes           @relation(fields: [asset_type_id], references: [id])
+  logs              AssetLogs[]
+}
+
+model AssetLogs {
+  id                 String              @id @default(cuid(2))
+  asset_id           String
+  asset_status_id    String
+  asset_location_id  String
+  Action             Action              @default(CREATED)
+  created_at temporal.createdAtJsDate()
+
+  Asset              Asset               @relation(fields: [asset_id], references: [id])
+  Asset_statuses     AssetStatuses       @relation(fields: [asset_status_id], references: [id])
+  Asset_locations_id AssetLocations      @relation(fields: [asset_location_id], references: [id])
 }

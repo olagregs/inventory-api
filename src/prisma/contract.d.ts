@@ -18,9 +18,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'7cd22922e9e68ef645d60486993ed6399188d25f1dcf590da9725d0808a62bc3'>;
+  StorageHashBase<'485a4029469a7a348aea669961902e3590e4d8ce18b0c8a2160ea3ad33788f61'>;
 export type ExecutionHash =
-  ExecutionHashBase<'7160e4ab44e1a7b2bfc75eaa84b3eed83000b0ddd08394a9fa78509a3df49ca3'>;
+  ExecutionHashBase<'24944d978a4384983dd37debe42835a7ac4f8a25bd4381d3b6fb0cde0ae32610'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -235,31 +235,36 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 export type FieldOutputTypes = {
   readonly public: {
     readonly Asset: {
+      readonly asset_location_id: CodecTypes['pg/text@1']['output'];
       readonly asset_status_id: CodecTypes['pg/text@1']['output'];
       readonly asset_type_id: CodecTypes['pg/text@1']['output'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly location: CodecTypes['pg/text@1']['output'];
       readonly model: CodecTypes['pg/text@1']['output'];
       readonly serial_number: CodecTypes['pg/text@1']['output'];
       readonly tag: CodecTypes['pg/text@1']['output'];
-      readonly updated_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly updated_at: CodecTypes['pg/timestamptz-date@1']['output'];
+    };
+    readonly AssetLocations: {
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly name: CodecTypes['pg/text@1']['output'];
     };
     readonly AssetLogs: {
-      readonly action: 'CREATED' | 'UPDATED';
+      readonly Action: 'CREATED' | 'UPDATED';
       readonly asset_id: CodecTypes['pg/text@1']['output'];
+      readonly asset_location_id: CodecTypes['pg/text@1']['output'];
       readonly asset_status_id: CodecTypes['pg/text@1']['output'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly location: CodecTypes['pg/text@1']['output'];
     };
     readonly AssetStatuses: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
     };
     readonly AssetTypes: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
     };
@@ -268,31 +273,36 @@ export type FieldOutputTypes = {
 export type FieldInputTypes = {
   readonly public: {
     readonly Asset: {
+      readonly asset_location_id: CodecTypes['pg/text@1']['input'];
       readonly asset_status_id: CodecTypes['pg/text@1']['input'];
       readonly asset_type_id: CodecTypes['pg/text@1']['input'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly location: CodecTypes['pg/text@1']['input'];
       readonly model: CodecTypes['pg/text@1']['input'];
       readonly serial_number: CodecTypes['pg/text@1']['input'];
       readonly tag: CodecTypes['pg/text@1']['input'];
-      readonly updated_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly updated_at: CodecTypes['pg/timestamptz-date@1']['input'];
+    };
+    readonly AssetLocations: {
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly name: CodecTypes['pg/text@1']['input'];
     };
     readonly AssetLogs: {
-      readonly action: 'CREATED' | 'UPDATED';
+      readonly Action: 'CREATED' | 'UPDATED';
       readonly asset_id: CodecTypes['pg/text@1']['input'];
+      readonly asset_location_id: CodecTypes['pg/text@1']['input'];
       readonly asset_status_id: CodecTypes['pg/text@1']['input'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly location: CodecTypes['pg/text@1']['input'];
     };
     readonly AssetStatuses: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
     };
     readonly AssetTypes: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
     };
@@ -301,31 +311,36 @@ export type FieldInputTypes = {
 export type StorageColumnTypes = {
   readonly public: {
     readonly Asset: {
+      readonly asset_location_id: CodecTypes['pg/text@1']['output'];
       readonly asset_status_id: CodecTypes['pg/text@1']['output'];
       readonly asset_type_id: CodecTypes['pg/text@1']['output'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly location: CodecTypes['pg/text@1']['output'];
       readonly model: CodecTypes['pg/text@1']['output'];
       readonly serial_number: CodecTypes['pg/text@1']['output'];
       readonly tag: CodecTypes['pg/text@1']['output'];
-      readonly updated_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly updated_at: CodecTypes['pg/timestamptz-date@1']['output'];
+    };
+    readonly AssetLocations: {
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly name: CodecTypes['pg/text@1']['output'];
     };
     readonly AssetLogs: {
-      readonly action: 'CREATED' | 'UPDATED';
+      readonly Action: 'CREATED' | 'UPDATED';
       readonly asset_id: CodecTypes['pg/text@1']['output'];
+      readonly asset_location_id: CodecTypes['pg/text@1']['output'];
       readonly asset_status_id: CodecTypes['pg/text@1']['output'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
-      readonly location: CodecTypes['pg/text@1']['output'];
     };
     readonly AssetStatuses: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
     };
     readonly AssetTypes: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['output'];
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
     };
@@ -334,31 +349,36 @@ export type StorageColumnTypes = {
 export type StorageColumnInputTypes = {
   readonly public: {
     readonly Asset: {
+      readonly asset_location_id: CodecTypes['pg/text@1']['input'];
       readonly asset_status_id: CodecTypes['pg/text@1']['input'];
       readonly asset_type_id: CodecTypes['pg/text@1']['input'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly location: CodecTypes['pg/text@1']['input'];
       readonly model: CodecTypes['pg/text@1']['input'];
       readonly serial_number: CodecTypes['pg/text@1']['input'];
       readonly tag: CodecTypes['pg/text@1']['input'];
-      readonly updated_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly updated_at: CodecTypes['pg/timestamptz-date@1']['input'];
+    };
+    readonly AssetLocations: {
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly name: CodecTypes['pg/text@1']['input'];
     };
     readonly AssetLogs: {
-      readonly action: 'CREATED' | 'UPDATED';
+      readonly Action: 'CREATED' | 'UPDATED';
       readonly asset_id: CodecTypes['pg/text@1']['input'];
+      readonly asset_location_id: CodecTypes['pg/text@1']['input'];
       readonly asset_status_id: CodecTypes['pg/text@1']['input'];
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
-      readonly location: CodecTypes['pg/text@1']['input'];
     };
     readonly AssetStatuses: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
     };
     readonly AssetTypes: {
-      readonly created_at: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly created_at: CodecTypes['pg/timestamptz-date@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
     };
@@ -367,33 +387,43 @@ export type StorageColumnInputTypes = {
 
 export namespace Models {
   export type public_Asset = {
+    asset_location_id: CodecTypes['pg/text@1']['output'];
     asset_status_id: CodecTypes['pg/text@1']['output'];
     asset_type_id: CodecTypes['pg/text@1']['output'];
-    created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+    created_at: CodecTypes['pg/timestamptz-date@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
-    location: CodecTypes['pg/text@1']['output'];
     model: CodecTypes['pg/text@1']['output'];
     serial_number: CodecTypes['pg/text@1']['output'];
     tag: CodecTypes['pg/text@1']['output'];
-    updated_at: CodecTypes['pg/timestamptz-string@1']['output'];
+    updated_at: CodecTypes['pg/timestamptz-date@1']['output'];
+    Asset_locations: public_AssetLocations;
     Asset_statuses: public_AssetStatuses;
     Asset_types: public_AssetTypes;
     logs: public_AssetLogs[];
-    readonly [RelationKeys]?: 'Asset_statuses' | 'Asset_types' | 'logs';
+    readonly [RelationKeys]?: 'Asset_locations' | 'Asset_statuses' | 'Asset_types' | 'logs';
+  };
+  export type public_AssetLocations = {
+    created_at: CodecTypes['pg/timestamptz-date@1']['output'];
+    id: CodecTypes['pg/text@1']['output'];
+    name: CodecTypes['pg/text@1']['output'];
+    assetlogs: public_AssetLogs[];
+    assets: public_Asset[];
+    readonly [RelationKeys]?: 'assetlogs' | 'assets';
   };
   export type public_AssetLogs = {
-    action: 'CREATED' | 'UPDATED';
+    Action: 'CREATED' | 'UPDATED';
     asset_id: CodecTypes['pg/text@1']['output'];
+    asset_location_id: CodecTypes['pg/text@1']['output'];
     asset_status_id: CodecTypes['pg/text@1']['output'];
-    created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+    created_at: CodecTypes['pg/timestamptz-date@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
-    location: CodecTypes['pg/text@1']['output'];
     Asset: public_Asset;
+    Asset_locations_id: public_AssetLocations;
     Asset_statuses: public_AssetStatuses;
-    readonly [RelationKeys]?: 'Asset' | 'Asset_statuses';
+    readonly [RelationKeys]?: 'Asset' | 'Asset_locations_id' | 'Asset_statuses';
   };
   export type public_AssetStatuses = {
-    created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+    created_at: CodecTypes['pg/timestamptz-date@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
     name: CodecTypes['pg/text@1']['output'];
     assets: public_Asset[];
@@ -401,7 +431,7 @@ export namespace Models {
     readonly [RelationKeys]?: 'assets' | 'logs';
   };
   export type public_AssetTypes = {
-    created_at: CodecTypes['pg/timestamptz-string@1']['output'];
+    created_at: CodecTypes['pg/timestamptz-date@1']['output'];
     id: CodecTypes['pg/text@1']['output'];
     name: CodecTypes['pg/text@1']['output'];
     assets: public_Asset[];
@@ -412,6 +442,7 @@ export namespace Models {
 export declare const models: {
   public: {
     Asset: Models.public_Asset;
+    AssetLocations: Models.public_AssetLocations;
     AssetLogs: Models.public_AssetLogs;
     AssetStatuses: Models.public_AssetStatuses;
     AssetTypes: Models.public_AssetTypes;
@@ -438,6 +469,12 @@ type ContractBase = Omit<
           readonly table: {
             readonly Asset: {
               columns: {
+                readonly asset_location_id: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
                 readonly asset_status_id: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
@@ -452,18 +489,11 @@ type ContractBase = Omit<
                 };
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                   readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
                   readonly many: false;
                 };
                 readonly id: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly location: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -489,7 +519,7 @@ type ContractBase = Omit<
                 };
                 readonly updated_at: {
                   readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                   readonly nullable: false;
                   readonly many: false;
                 };
@@ -500,6 +530,12 @@ type ContractBase = Omit<
                 { readonly columns: readonly ['serial_number'] },
               ];
               indexes: readonly [
+                {
+                  readonly name: 'Asset_asset_location_id_idx_bd40cf12';
+                  readonly prefix: 'Asset_asset_location_id_idx';
+                  readonly columns: readonly ['asset_location_id'];
+                  readonly unique: false;
+                },
                 {
                   readonly name: 'Asset_asset_status_id_idx_c7183dcd';
                   readonly prefix: 'Asset_asset_status_id_idx';
@@ -514,6 +550,18 @@ type ContractBase = Omit<
                 },
               ];
               foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'Asset';
+                    readonly columns: readonly ['asset_location_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'AssetLocations';
+                    readonly columns: readonly ['id'];
+                  };
+                },
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
@@ -540,9 +588,35 @@ type ContractBase = Omit<
                 },
               ];
             };
+            readonly AssetLocations: {
+              columns: {
+                readonly created_at: {
+                  readonly dataType: 'pg/timestamptz';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly id: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly name: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['name'] }];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
             readonly AssetLogs: {
               columns: {
-                readonly action: {
+                readonly Action: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -558,6 +632,12 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
+                readonly asset_location_id: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
                 readonly asset_status_id: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
@@ -566,18 +646,11 @@ type ContractBase = Omit<
                 };
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                   readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
                   readonly many: false;
                 };
                 readonly id: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly location: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -591,6 +664,12 @@ type ContractBase = Omit<
                   readonly name: 'AssetLogs_asset_id_idx_0cb19679';
                   readonly prefix: 'AssetLogs_asset_id_idx';
                   readonly columns: readonly ['asset_id'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'AssetLogs_asset_location_id_idx_bd40cf12';
+                  readonly prefix: 'AssetLogs_asset_location_id_idx';
+                  readonly columns: readonly ['asset_location_id'];
                   readonly unique: false;
                 },
                 {
@@ -625,15 +704,26 @@ type ContractBase = Omit<
                     readonly columns: readonly ['id'];
                   };
                 },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'AssetLogs';
+                    readonly columns: readonly ['asset_location_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'AssetLocations';
+                    readonly columns: readonly ['id'];
+                  };
+                },
               ];
             };
             readonly AssetStatuses: {
               columns: {
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                   readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
                   readonly many: false;
                 };
                 readonly id: {
@@ -658,9 +748,8 @@ type ContractBase = Omit<
               columns: {
                 readonly created_at: {
                   readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                   readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
                   readonly many: false;
                 };
                 readonly id: {
@@ -699,6 +788,10 @@ type ContractBase = Omit<
   readonly targetFamily: 'sql';
   readonly roots: {
     readonly Asset: { readonly namespace: 'public' & NamespaceId; readonly model: 'Asset' };
+    readonly AssetLocations: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'AssetLocations';
+    };
     readonly AssetLogs: { readonly namespace: 'public' & NamespaceId; readonly model: 'AssetLogs' };
     readonly AssetStatuses: {
       readonly namespace: 'public' & NamespaceId;
@@ -715,6 +808,10 @@ type ContractBase = Omit<
         readonly models: {
           readonly Asset: {
             readonly fields: {
+              readonly asset_location_id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly asset_status_id: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -727,14 +824,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                 };
               };
               readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly location: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -754,11 +847,23 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                 };
               };
             };
             readonly relations: {
+              readonly Asset_locations: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'AssetLocations';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['asset_location_id'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
               readonly Asset_statuses: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
@@ -799,11 +904,11 @@ type ContractBase = Omit<
               readonly table: 'Asset';
               readonly namespaceId: 'public';
               readonly fields: {
+                readonly asset_location_id: { readonly column: 'asset_location_id' };
                 readonly asset_status_id: { readonly column: 'asset_status_id' };
                 readonly asset_type_id: { readonly column: 'asset_type_id' };
                 readonly created_at: { readonly column: 'created_at' };
                 readonly id: { readonly column: 'id' };
-                readonly location: { readonly column: 'location' };
                 readonly model: { readonly column: 'model' };
                 readonly serial_number: { readonly column: 'serial_number' };
                 readonly tag: { readonly column: 'tag' };
@@ -811,13 +916,69 @@ type ContractBase = Omit<
               };
             };
           };
+          readonly AssetLocations: {
+            readonly fields: {
+              readonly created_at: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-date@1';
+                };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly name: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly assetlogs: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'AssetLogs';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['asset_location_id'];
+                };
+              };
+              readonly assets: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Asset';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['asset_location_id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'AssetLocations';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly created_at: { readonly column: 'created_at' };
+                readonly id: { readonly column: 'id' };
+                readonly name: { readonly column: 'name' };
+              };
+            };
+          };
           readonly AssetLogs: {
             readonly fields: {
-              readonly action: {
+              readonly Action: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly asset_id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly asset_location_id: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -829,14 +990,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                 };
               };
               readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly location: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -851,6 +1008,18 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly on: {
                   readonly localFields: readonly ['asset_id'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly Asset_locations_id: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'AssetLocations';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['asset_location_id'];
                   readonly targetFields: readonly ['id'];
                 };
               };
@@ -871,12 +1040,12 @@ type ContractBase = Omit<
               readonly table: 'AssetLogs';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly action: { readonly column: 'action' };
+                readonly Action: { readonly column: 'Action' };
                 readonly asset_id: { readonly column: 'asset_id' };
+                readonly asset_location_id: { readonly column: 'asset_location_id' };
                 readonly asset_status_id: { readonly column: 'asset_status_id' };
                 readonly created_at: { readonly column: 'created_at' };
                 readonly id: { readonly column: 'id' };
-                readonly location: { readonly column: 'location' };
               };
             };
           };
@@ -886,7 +1055,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                 };
               };
               readonly id: {
@@ -938,7 +1107,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly codecId: 'pg/timestamptz-date@1';
                 };
               };
               readonly id: {
@@ -1019,10 +1188,51 @@ type ContractBase = Omit<
     readonly mutations: {
       readonly defaults: readonly [
         {
+          readonly onCreate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'Asset';
+            readonly field: 'created_at';
+            readonly namespace: 'public';
+          };
+        },
+        {
           readonly onCreate: { readonly id: 'cuid2'; readonly kind: 'generator' };
           readonly ref: {
             readonly entry: 'Asset';
             readonly field: 'id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly onUpdate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'Asset';
+            readonly field: 'updated_at';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'AssetLocations';
+            readonly field: 'created_at';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'cuid2'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'AssetLocations';
+            readonly field: 'id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'AssetLogs';
+            readonly field: 'created_at';
             readonly namespace: 'public';
           };
         },
@@ -1035,10 +1245,26 @@ type ContractBase = Omit<
           };
         },
         {
+          readonly onCreate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'AssetStatuses';
+            readonly field: 'created_at';
+            readonly namespace: 'public';
+          };
+        },
+        {
           readonly onCreate: { readonly id: 'cuid2'; readonly kind: 'generator' };
           readonly ref: {
             readonly entry: 'AssetStatuses';
             readonly field: 'id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'timestampNow'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'AssetTypes';
+            readonly field: 'created_at';
             readonly namespace: 'public';
           };
         },

@@ -8,6 +8,10 @@
       "model": "Asset",
       "namespace": "public"
     },
+    "AssetLocations": {
+      "model": "AssetLocations",
+      "namespace": "public"
+    },
     "AssetLogs": {
       "model": "AssetLogs",
       "namespace": "public"
@@ -42,6 +46,13 @@
         "models": {
           "Asset": {
             "fields": {
+              "asset_location_id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "asset_status_id": {
                 "nullable": false,
                 "type": {
@@ -59,18 +70,11 @@
               "created_at": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "kind": "scalar"
                 }
               },
               "id": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "location": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -101,12 +105,28 @@
               "updated_at": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "kind": "scalar"
                 }
               }
             },
             "relations": {
+              "Asset_locations": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "asset_location_id"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "AssetLocations",
+                  "namespace": "public"
+                }
+              },
               "Asset_statuses": {
                 "cardinality": "N:1",
                 "nullable": false,
@@ -157,6 +177,9 @@
             },
             "storage": {
               "fields": {
+                "asset_location_id": {
+                  "column": "asset_location_id"
+                },
                 "asset_status_id": {
                   "column": "asset_status_id"
                 },
@@ -168,9 +191,6 @@
                 },
                 "id": {
                   "column": "id"
-                },
-                "location": {
-                  "column": "location"
                 },
                 "model": {
                   "column": "model"
@@ -189,9 +209,81 @@
               "table": "Asset"
             }
           },
+          "AssetLocations": {
+            "fields": {
+              "created_at": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "assetlogs": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "asset_location_id"
+                  ]
+                },
+                "to": {
+                  "model": "AssetLogs",
+                  "namespace": "public"
+                }
+              },
+              "assets": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "asset_location_id"
+                  ]
+                },
+                "to": {
+                  "model": "Asset",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "created_at": {
+                  "column": "created_at"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "name": {
+                  "column": "name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "AssetLocations"
+            }
+          },
           "AssetLogs": {
             "fields": {
-              "action": {
+              "Action": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -211,6 +303,13 @@
                   "kind": "scalar"
                 }
               },
+              "asset_location_id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "asset_status_id": {
                 "nullable": false,
                 "type": {
@@ -221,18 +320,11 @@
               "created_at": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "kind": "scalar"
                 }
               },
               "id": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "location": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -257,6 +349,22 @@
                   "namespace": "public"
                 }
               },
+              "Asset_locations_id": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "asset_location_id"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "AssetLocations",
+                  "namespace": "public"
+                }
+              },
               "Asset_statuses": {
                 "cardinality": "N:1",
                 "nullable": false,
@@ -276,11 +384,14 @@
             },
             "storage": {
               "fields": {
-                "action": {
-                  "column": "action"
+                "Action": {
+                  "column": "Action"
                 },
                 "asset_id": {
                   "column": "asset_id"
+                },
+                "asset_location_id": {
+                  "column": "asset_location_id"
                 },
                 "asset_status_id": {
                   "column": "asset_status_id"
@@ -290,9 +401,6 @@
                 },
                 "id": {
                   "column": "id"
-                },
-                "location": {
-                  "column": "location"
                 }
               },
               "namespaceId": "public",
@@ -304,7 +412,7 @@
               "created_at": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "kind": "scalar"
                 }
               },
@@ -376,7 +484,7 @@
               "created_at": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "kind": "scalar"
                 }
               },
@@ -439,6 +547,11 @@
           "table": {
             "Asset": {
               "columns": {
+                "asset_location_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
                 "asset_status_id": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
@@ -450,20 +563,11 @@
                   "nullable": false
                 },
                 "created_at": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
                   "nullable": false
                 },
                 "id": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "location": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
@@ -484,12 +588,28 @@
                   "nullable": false
                 },
                 "updated_at": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
                   "nullable": false
                 }
               },
               "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "asset_location_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "Asset"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "AssetLocations"
+                  }
+                },
                 {
                   "source": {
                     "columns": [
@@ -526,6 +646,14 @@
               "indexes": [
                 {
                   "columns": [
+                    "asset_location_id"
+                  ],
+                  "name": "Asset_asset_location_id_idx_bd40cf12",
+                  "prefix": "Asset_asset_location_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
                     "asset_status_id"
                   ],
                   "name": "Asset_asset_status_id_idx_c7183dcd",
@@ -559,16 +687,49 @@
                 }
               ]
             },
+            "AssetLocations": {
+              "columns": {
+                "created_at": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "name"
+                  ]
+                }
+              ]
+            },
             "AssetLogs": {
               "checks": [
                 {
-                  "expression": "\"action\" IN ('CREATED', 'UPDATED')",
-                  "name": "AssetLogs_action_check_22dd2474",
-                  "prefix": "AssetLogs_action_check"
+                  "expression": "\"Action\" IN ('CREATED', 'UPDATED')",
+                  "name": "AssetLogs_Action_check_40de97c8",
+                  "prefix": "AssetLogs_Action_check"
                 }
               ],
               "columns": {
-                "action": {
+                "Action": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "default": {
@@ -588,26 +749,22 @@
                   "dataType": "pg/text",
                   "nullable": false
                 },
+                "asset_location_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
                 "asset_status_id": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
                 },
                 "created_at": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
                   "nullable": false
                 },
                 "id": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "location": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
@@ -645,6 +802,22 @@
                     "namespaceId": "public",
                     "tableName": "AssetStatuses"
                   }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "asset_location_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "AssetLogs"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "AssetLocations"
+                  }
                 }
               ],
               "indexes": [
@@ -654,6 +827,14 @@
                   ],
                   "name": "AssetLogs_asset_id_idx_0cb19679",
                   "prefix": "AssetLogs_asset_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "asset_location_id"
+                  ],
+                  "name": "AssetLogs_asset_location_id_idx_bd40cf12",
+                  "prefix": "AssetLogs_asset_location_id_idx",
                   "unique": false
                 },
                 {
@@ -675,12 +856,8 @@
             "AssetStatuses": {
               "columns": {
                 "created_at": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
                   "nullable": false
                 },
                 "id": {
@@ -712,12 +889,8 @@
             "AssetTypes": {
               "columns": {
                 "created_at": {
-                  "codecId": "pg/timestamptz-string@1",
+                  "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
                   "nullable": false
                 },
                 "id": {
@@ -761,12 +934,23 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "7cd22922e9e68ef645d60486993ed6399188d25f1dcf590da9725d0808a62bc3"
+    "storageHash": "485a4029469a7a348aea669961902e3590e4d8ce18b0c8a2160ea3ad33788f61"
   },
   "execution": {
-    "executionHash": "7160e4ab44e1a7b2bfc75eaa84b3eed83000b0ddd08394a9fa78509a3df49ca3",
+    "executionHash": "24944d978a4384983dd37debe42835a7ac4f8a25bd4381d3b6fb0cde0ae32610",
     "mutations": {
       "defaults": [
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Asset",
+            "field": "created_at",
+            "namespace": "public"
+          }
+        },
         {
           "onCreate": {
             "id": "cuid2",
@@ -775,6 +959,54 @@
           "ref": {
             "entry": "Asset",
             "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "Asset",
+            "field": "updated_at",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "AssetLocations",
+            "field": "created_at",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "cuid2",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "AssetLocations",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "AssetLogs",
+            "field": "created_at",
             "namespace": "public"
           }
         },
@@ -791,12 +1023,34 @@
         },
         {
           "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "AssetStatuses",
+            "field": "created_at",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
             "id": "cuid2",
             "kind": "generator"
           },
           "ref": {
             "entry": "AssetStatuses",
             "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "AssetTypes",
+            "field": "created_at",
             "namespace": "public"
           }
         },

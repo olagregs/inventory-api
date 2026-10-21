@@ -1,12 +1,11 @@
 #!/usr/bin/env -S node
-import type { Contract as End } from '../../snapshots/7cd22922e9e68ef645d60486993ed6399188d25f1dcf590da9725d0808a62bc3/contract';
-import endContract from '../../snapshots/7cd22922e9e68ef645d60486993ed6399188d25f1dcf590da9725d0808a62bc3/contract.json' with { type: 'json' };
+import type { Contract as End } from '../../snapshots/485a4029469a7a348aea669961902e3590e4d8ce18b0c8a2160ea3ad33788f61/contract';
+import endContract from '../../snapshots/485a4029469a7a348aea669961902e3590e4d8ce18b0c8a2160ea3ad33788f61/contract.json' with { type: 'json' };
 import {
   Migration,
   MigrationCLI,
   checkExpression,
   col,
-  fn,
   lit,
   primaryKey,
 } from '@prisma/orm-postgres/migration';
@@ -21,22 +20,34 @@ export default class M extends Migration<never, End> {
         schema: 'public',
         table: 'Asset',
         columns: [
+          col('asset_location_id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('asset_status_id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('asset_type_id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('created_at', 'timestamptz', {
             notNull: true,
-            default: fn('now()'),
-            codecRef: { codecId: 'pg/timestamptz-string@1' },
+            codecRef: { codecId: 'pg/timestamptz-date@1' },
           }),
           col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('location', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('model', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('serial_number', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('tag', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('updated_at', 'timestamptz', {
             notNull: true,
-            codecRef: { codecId: 'pg/timestamptz-string@1' },
+            codecRef: { codecId: 'pg/timestamptz-date@1' },
           }),
+        ],
+        constraints: [primaryKey(['id'])],
+      }),
+      this.createTable({
+        schema: 'public',
+        table: 'AssetLocations',
+        columns: [
+          col('created_at', 'timestamptz', {
+            notNull: true,
+            codecRef: { codecId: 'pg/timestamptz-date@1' },
+          }),
+          col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
         ],
         constraints: [primaryKey(['id'])],
       }),
@@ -44,24 +55,23 @@ export default class M extends Migration<never, End> {
         schema: 'public',
         table: 'AssetLogs',
         columns: [
-          col('action', 'text', {
+          col('Action', 'text', {
             notNull: true,
             default: lit('CREATED'),
             codecRef: { codecId: 'pg/text@1' },
           }),
           col('asset_id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('asset_location_id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('asset_status_id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('created_at', 'timestamptz', {
             notNull: true,
-            default: fn('now()'),
-            codecRef: { codecId: 'pg/timestamptz-string@1' },
+            codecRef: { codecId: 'pg/timestamptz-date@1' },
           }),
           col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('location', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
         ],
         constraints: [
           primaryKey(['id']),
-          checkExpression('AssetLogs_action_check_22dd2474', `"action" IN ('CREATED', 'UPDATED')`),
+          checkExpression('AssetLogs_Action_check_40de97c8', `"Action" IN ('CREATED', 'UPDATED')`),
         ],
       }),
       this.createTable({
@@ -70,8 +80,7 @@ export default class M extends Migration<never, End> {
         columns: [
           col('created_at', 'timestamptz', {
             notNull: true,
-            default: fn('now()'),
-            codecRef: { codecId: 'pg/timestamptz-string@1' },
+            codecRef: { codecId: 'pg/timestamptz-date@1' },
           }),
           col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
@@ -84,8 +93,7 @@ export default class M extends Migration<never, End> {
         columns: [
           col('created_at', 'timestamptz', {
             notNull: true,
-            default: fn('now()'),
-            codecRef: { codecId: 'pg/timestamptz-string@1' },
+            codecRef: { codecId: 'pg/timestamptz-date@1' },
           }),
           col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
           col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
@@ -106,6 +114,12 @@ export default class M extends Migration<never, End> {
       }),
       this.addUnique({
         schema: 'public',
+        table: 'AssetLocations',
+        constraint: 'AssetLocations_name_key',
+        columns: ['name'],
+      }),
+      this.addUnique({
+        schema: 'public',
         table: 'AssetStatuses',
         constraint: 'AssetStatuses_name_key',
         columns: ['name'],
@@ -115,6 +129,12 @@ export default class M extends Migration<never, End> {
         table: 'AssetTypes',
         constraint: 'AssetTypes_name_key',
         columns: ['name'],
+      }),
+      this.createIndex({
+        schema: 'public',
+        table: 'Asset',
+        index: 'Asset_asset_location_id_idx_bd40cf12',
+        columns: ['asset_location_id'],
       }),
       this.createIndex({
         schema: 'public',
@@ -137,8 +157,23 @@ export default class M extends Migration<never, End> {
       this.createIndex({
         schema: 'public',
         table: 'AssetLogs',
+        index: 'AssetLogs_asset_location_id_idx_bd40cf12',
+        columns: ['asset_location_id'],
+      }),
+      this.createIndex({
+        schema: 'public',
+        table: 'AssetLogs',
         index: 'AssetLogs_asset_status_id_idx_c7183dcd',
         columns: ['asset_status_id'],
+      }),
+      this.addForeignKey({
+        schema: 'public',
+        table: 'Asset',
+        foreignKey: {
+          name: 'Asset_asset_location_id_fkey',
+          columns: ['asset_location_id'],
+          references: { schema: 'public', table: 'AssetLocations', columns: ['id'] },
+        },
       }),
       this.addForeignKey({
         schema: 'public',
@@ -174,6 +209,15 @@ export default class M extends Migration<never, End> {
           name: 'AssetLogs_asset_status_id_fkey',
           columns: ['asset_status_id'],
           references: { schema: 'public', table: 'AssetStatuses', columns: ['id'] },
+        },
+      }),
+      this.addForeignKey({
+        schema: 'public',
+        table: 'AssetLogs',
+        foreignKey: {
+          name: 'AssetLogs_asset_location_id_fkey',
+          columns: ['asset_location_id'],
+          references: { schema: 'public', table: 'AssetLocations', columns: ['id'] },
         },
       }),
     ];

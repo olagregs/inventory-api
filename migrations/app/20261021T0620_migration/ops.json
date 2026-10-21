@@ -41,7 +41,7 @@
     "execute": [
       {
         "description": "create table \"Asset\"",
-        "sql": "CREATE TABLE \"public\".\"Asset\" (\n  \"asset_status_id\" text NOT NULL,\n  \"asset_type_id\" text NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"location\" text NOT NULL,\n  \"model\" text NOT NULL,\n  \"serial_number\" text NOT NULL,\n  \"tag\" text NOT NULL,\n  \"updated_at\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "sql": "CREATE TABLE \"public\".\"Asset\" (\n  \"asset_location_id\" text NOT NULL,\n  \"asset_status_id\" text NOT NULL,\n  \"asset_type_id\" text NOT NULL,\n  \"created_at\" timestamptz NOT NULL,\n  \"id\" text NOT NULL,\n  \"model\" text NOT NULL,\n  \"serial_number\" text NOT NULL,\n  \"tag\" text NOT NULL,\n  \"updated_at\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],
@@ -51,6 +51,45 @@
         "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
         "params": [
           "\"public\".\"Asset\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.AssetLocations",
+    "label": "Create table \"AssetLocations\"",
+    "summary": "Creates table \"AssetLocations\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "AssetLocations"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"AssetLocations\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"AssetLocations\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"AssetLocations\"",
+        "sql": "CREATE TABLE \"public\".\"AssetLocations\" (\n  \"created_at\" timestamptz NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"AssetLocations\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"AssetLocations\""
         ]
       }
     ]
@@ -80,7 +119,7 @@
     "execute": [
       {
         "description": "create table \"AssetLogs\"",
-        "sql": "CREATE TABLE \"public\".\"AssetLogs\" (\n  \"action\" text DEFAULT 'CREATED' NOT NULL,\n  \"asset_id\" text NOT NULL,\n  \"asset_status_id\" text NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"location\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"AssetLogs_action_check_22dd2474\" CHECK (\"action\" IN ('CREATED', 'UPDATED'))\n)",
+        "sql": "CREATE TABLE \"public\".\"AssetLogs\" (\n  \"Action\" text DEFAULT 'CREATED' NOT NULL,\n  \"asset_id\" text NOT NULL,\n  \"asset_location_id\" text NOT NULL,\n  \"asset_status_id\" text NOT NULL,\n  \"created_at\" timestamptz NOT NULL,\n  \"id\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"AssetLogs_Action_check_40de97c8\" CHECK (\"Action\" IN ('CREATED', 'UPDATED'))\n)",
         "params": []
       }
     ],
@@ -119,7 +158,7 @@
     "execute": [
       {
         "description": "create table \"AssetStatuses\"",
-        "sql": "CREATE TABLE \"public\".\"AssetStatuses\" (\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "sql": "CREATE TABLE \"public\".\"AssetStatuses\" (\n  \"created_at\" timestamptz NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],
@@ -158,7 +197,7 @@
     "execute": [
       {
         "description": "create table \"AssetTypes\"",
-        "sql": "CREATE TABLE \"public\".\"AssetTypes\" (\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "sql": "CREATE TABLE \"public\".\"AssetTypes\" (\n  \"created_at\" timestamptz NOT NULL,\n  \"id\" text NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],
@@ -257,6 +296,48 @@
     ]
   },
   {
+    "id": "unique.AssetLocations.AssetLocations_name_key",
+    "label": "Add unique constraint on \"AssetLocations\" (name)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "AssetLocations_name_key",
+        "table": "AssetLocations"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"AssetLocations_name_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "AssetLocations_name_key",
+          "public",
+          "\"public\".\"AssetLocations\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"AssetLocations_name_key\"",
+        "sql": "ALTER TABLE \"public\".\"AssetLocations\" ADD CONSTRAINT \"AssetLocations_name_key\" UNIQUE (\"name\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"AssetLocations_name_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "AssetLocations_name_key",
+          "public",
+          "\"public\".\"AssetLocations\""
+        ]
+      }
+    ]
+  },
+  {
     "id": "unique.AssetStatuses.AssetStatuses_name_key",
     "label": "Add unique constraint on \"AssetStatuses\" (name)",
     "operationClass": "additive",
@@ -336,6 +417,45 @@
           "AssetTypes_name_key",
           "public",
           "\"public\".\"AssetTypes\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Asset.Asset_asset_location_id_idx_bd40cf12",
+    "label": "Create index \"Asset_asset_location_id_idx_bd40cf12\" on \"Asset\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Asset_asset_location_id_idx_bd40cf12",
+        "table": "Asset"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Asset_asset_location_id_idx_bd40cf12\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Asset_asset_location_id_idx_bd40cf12\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Asset_asset_location_id_idx_bd40cf12\"",
+        "sql": "CREATE INDEX \"Asset_asset_location_id_idx_bd40cf12\" ON \"public\".\"Asset\" (\"asset_location_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Asset_asset_location_id_idx_bd40cf12\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Asset_asset_location_id_idx_bd40cf12\""
         ]
       }
     ]
@@ -458,6 +578,45 @@
     ]
   },
   {
+    "id": "index.AssetLogs.AssetLogs_asset_location_id_idx_bd40cf12",
+    "label": "Create index \"AssetLogs_asset_location_id_idx_bd40cf12\" on \"AssetLogs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "AssetLogs_asset_location_id_idx_bd40cf12",
+        "table": "AssetLogs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"AssetLogs_asset_location_id_idx_bd40cf12\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"AssetLogs_asset_location_id_idx_bd40cf12\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"AssetLogs_asset_location_id_idx_bd40cf12\"",
+        "sql": "CREATE INDEX \"AssetLogs_asset_location_id_idx_bd40cf12\" ON \"public\".\"AssetLogs\" (\"asset_location_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"AssetLogs_asset_location_id_idx_bd40cf12\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"AssetLogs_asset_location_id_idx_bd40cf12\""
+        ]
+      }
+    ]
+  },
+  {
     "id": "index.AssetLogs.AssetLogs_asset_status_id_idx_c7183dcd",
     "label": "Create index \"AssetLogs_asset_status_id_idx_c7183dcd\" on \"AssetLogs\"",
     "operationClass": "additive",
@@ -492,6 +651,48 @@
         "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
         "params": [
           "\"public\".\"AssetLogs_asset_status_id_idx_c7183dcd\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Asset.Asset_asset_location_id_fkey",
+    "label": "Add foreign key \"Asset_asset_location_id_fkey\" on \"Asset\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Asset_asset_location_id_fkey",
+        "table": "Asset"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Asset_asset_location_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Asset_asset_location_id_fkey",
+          "public",
+          "\"public\".\"Asset\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Asset_asset_location_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Asset\"\nADD CONSTRAINT \"Asset_asset_location_id_fkey\"\nFOREIGN KEY (\"asset_location_id\")\nREFERENCES \"public\".\"AssetLocations\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Asset_asset_location_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Asset_asset_location_id_fkey",
+          "public",
+          "\"public\".\"Asset\""
         ]
       }
     ]
@@ -658,6 +859,48 @@
         "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
         "params": [
           "AssetLogs_asset_status_id_fkey",
+          "public",
+          "\"public\".\"AssetLogs\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.AssetLogs.AssetLogs_asset_location_id_fkey",
+    "label": "Add foreign key \"AssetLogs_asset_location_id_fkey\" on \"AssetLogs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "AssetLogs_asset_location_id_fkey",
+        "table": "AssetLogs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"AssetLogs_asset_location_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "AssetLogs_asset_location_id_fkey",
+          "public",
+          "\"public\".\"AssetLogs\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"AssetLogs_asset_location_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"AssetLogs\"\nADD CONSTRAINT \"AssetLogs_asset_location_id_fkey\"\nFOREIGN KEY (\"asset_location_id\")\nREFERENCES \"public\".\"AssetLocations\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"AssetLogs_asset_location_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "AssetLogs_asset_location_id_fkey",
           "public",
           "\"public\".\"AssetLogs\""
         ]
