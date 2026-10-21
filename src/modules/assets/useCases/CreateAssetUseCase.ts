@@ -1,8 +1,8 @@
-import { randomUUID } from "node:crypto";
 import { Either, fail, success } from "@shared/config/types/either.js";
-import { AssetDTO, CreateAssetDTO } from "../dto/AssetDTO.js";
+import { AssetDTO } from "../dto/AssetDTO.js";
 import { AssetAlreadyExists } from "../errors/AssetAlreadyExists.js";
 import { IAssetRepository } from "../repositories/IAssetRepository.js";
+import { Asset } from "../entities/Asset.js";
 
 class CreateAssetUseCase {
   private repository: IAssetRepository;
@@ -11,15 +11,14 @@ class CreateAssetUseCase {
     this.repository = repository;
   }
 
-  async execute(data: CreateAssetDTO): Promise<Either<AssetAlreadyExists, AssetDTO>> {
-    const existingAsset = this.repository.findBySerial(data.serialNumber);
+  async execute(data: AssetDTO): Promise<Either<AssetAlreadyExists, Asset>> {
+    const existingAsset = await this.repository.findBySerial(data.serialNumber);
 
     if (existingAsset) {
       return fail(new AssetAlreadyExists());
     }
 
-    const asset = this.repository.create({
-      id: randomUUID(),
+    const asset = await this.repository.create({
       ...data,
     });
 

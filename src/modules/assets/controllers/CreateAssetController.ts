@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateAssetSchema } from "../dto/AssetDTO.js";
+import { AssetSchema } from "../dto/AssetDTO.js";
 import { CreateAssetUseCase } from "../useCases/CreateAssetUseCase.js";
 
 class CreateAssetController {
@@ -10,7 +10,7 @@ class CreateAssetController {
   }
 
   handle = async (request: Request, response: Response): Promise<Response> => {
-    const result = CreateAssetSchema.safeParse(request.body);
+    const result = AssetSchema.safeParse(request.body);
 
     if (!result.success) {
       const error = result.error;

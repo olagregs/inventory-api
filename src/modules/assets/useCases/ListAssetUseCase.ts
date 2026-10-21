@@ -1,4 +1,4 @@
-import { AssetDTO } from "../dto/AssetDTO.js";
+import { Asset } from "../entities/Asset.js";
 import { IAssetRepository } from "../repositories/IAssetRepository.js";
 
 class ListAssetUseCase {
@@ -8,7 +8,7 @@ class ListAssetUseCase {
     this.repository = repository;
   }
 
-  async execute(): Promise<AssetDTO[]> {
+  async execute(): Promise<Asset[]> {
     return this.repository.list();
   }
 }

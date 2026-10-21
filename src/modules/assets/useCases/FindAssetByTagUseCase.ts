@@ -1,7 +1,8 @@
 import { Either, fail, success } from "@shared/config/types/either.js";
-import { AssetDTO, FindAssetByTagDTO } from "../dto/AssetDTO.js";
+import { FindAssetByTagDTO } from "../dto/AssetDTO.js";
 import { AssetNotFound } from "../errors/AssetNotFound.js";
 import { IAssetRepository } from "../repositories/IAssetRepository.js";
+import { Asset } from "../entities/Asset.js";
 
 class FindAssetByTagUseCase {
   private repository: IAssetRepository;
@@ -10,8 +11,8 @@ class FindAssetByTagUseCase {
     this.repository = repository;
   }
 
-  async execute(data: FindAssetByTagDTO): Promise<Either<AssetNotFound, AssetDTO>> {
-    const asset = this.repository.findByTag(data.tag);
+  async execute(data: FindAssetByTagDTO): Promise<Either<AssetNotFound, Asset>> {
+    const asset = await this.repository.findByTag(data.tag);
 
     if (!asset) {
       return fail(new AssetNotFound());
