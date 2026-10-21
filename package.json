@@ -13,7 +13,8 @@
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "postinstall": "prisma skills sync || exit 0",
-    "contract:emit": "prisma contract emit"
+    "contract:emit": "prisma contract emit",
+    "db:seed": "tsx ./src/prisma/seed.ts"
   },
   "keywords": [],
   "type": "module",
